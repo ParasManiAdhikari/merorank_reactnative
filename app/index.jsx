@@ -4,6 +4,7 @@ import { View, TextInput, Button, Text, TouchableOpacity, Image, StyleSheet, Scr
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [myItems, setMyItems] = useState([]);
+  const [activeSwitches, setActiveSwitches] = useState([]);
 
   const handleSearch = async () => {
     try {
@@ -23,6 +24,30 @@ export default function TopicPage() {
     }
   };
 
+  const handleSwitch = (id) => {
+    if (activeSwitches.includes(id)) {
+      setActiveSwitches(activeSwitches.filter((activeId) => activeId !== id));
+    } else {
+      const newActiveSwitches = [...activeSwitches, id];
+      if (newActiveSwitches.length === 2) {
+        swapItems(newActiveSwitches[0], newActiveSwitches[1]);
+        setActiveSwitches([]);
+      } else {
+        setActiveSwitches(newActiveSwitches);
+      }
+    }
+  };
+
+  const swapItems = (id1, id2) => {
+    const index1 = myItems.findIndex((item) => item.id === id1);
+    const index2 = myItems.findIndex((item) => item.id === id2);
+    if (index1 !== -1 && index2 !== -1) {
+      const newItems = [...myItems];
+      [newItems[index1], newItems[index2]] = [newItems[index2], newItems[index1]];
+      setMyItems(newItems);
+    }
+  };
+
   const handleSaveTopic = () => {
     console.log('Saved topic:', myItems);
   };
@@ -37,10 +62,22 @@ export default function TopicPage() {
       />
       <Button title="Search" onPress={handleSearch} />
       <ScrollView contentContainerStyle={styles.itemsContainer}>
-        {myItems.map((item) => (
+        {myItems.map((item, index) => (
           <View key={item.id} style={styles.pill}>
+            <Text style={styles.rank}>{index + 1}</Text>
             <Image source={{ uri: item.image }} style={styles.image} />
             <Text style={styles.text}>{item.title}</Text>
+            <TouchableOpacity
+              style={[
+                styles.switchButton,
+                activeSwitches.includes(item.id) && styles.switchButtonActive,
+              ]}
+              onPress={() => handleSwitch(item.id)}
+            >
+              <Text style={styles.switchButtonText}>
+                {activeSwitches.includes(item.id) ? 'Active' : 'Switch'}
+              </Text>
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -67,33 +104,52 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   itemsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    flexDirection: 'column',
     marginVertical: 16,
   },
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#e0f7fa',
-    borderRadius: 20,
-    padding: 8,
-    margin: 4,
+    borderRadius: 50,
+    padding: 12,
+    marginVertical: 8,
+    width: '100%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 2,
   },
+  rank: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#00796b',
+    marginRight: 16,
+  },
   image: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 8,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#00796b',
+    flexShrink: 1,
+  },
+  switchButton: {
+    marginLeft: 'auto',
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: '#ccc',
+  },
+  switchButtonActive: {
+    backgroundColor: '#00796b',
+  },
+  switchButtonText: {
+    color: '#fff',
+    fontSize: 14,
   },
   saveButton: {
     backgroundColor: '#00796b',
