@@ -134,32 +134,33 @@ export default function TopicPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 24, // Increased padding for left and right
     paddingTop: 80, // Adjusted for removed header
-    backgroundColor: '#121212', // Dark background
+    backgroundColor: '#121212',
   },
   searchBar: {
     height: 50,
     borderColor: '#333',
     borderWidth: 1,
-    borderRadius: 25, // Rounded input
-    paddingHorizontal: 16,
+    borderRadius: 25,
+    paddingHorizontal: 24, // Increased padding for left and right
     marginBottom: 16,
-    backgroundColor: '#1e1e1e', // Darker input background
-    color: '#fff', // White text
+    backgroundColor: '#1e1e1e',
+    color: '#fff',
     fontSize: 16,
   },
   searchResult: {
     padding: 12,
+    paddingHorizontal: 24, // Increased padding for left and right
     borderBottomWidth: 1,
     borderBottomColor: '#333',
-    backgroundColor: '#1e1e1e', // Darker background for results
-    borderRadius: 8, // Slightly rounded corners
+    backgroundColor: '#1e1e1e',
+    borderRadius: 8,
     marginBottom: 8,
   },
   searchResultText: {
     fontSize: 16,
-    color: '#80cbc4', // Accent color for text
+    color: '#fff', // This determines the color of the search results text
   },
   itemsContainer: {
     flexDirection: 'column',
@@ -168,10 +169,11 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1e1e1e', // Darker pill background
-    borderRadius: 10, // Less rounded
-    padding: 8, // Smaller padding
-    marginVertical: 6, // Smaller margin
+    backgroundColor: '#1e1e1e',
+    borderRadius: 10,
+    padding: 20,
+    paddingHorizontal: 24, // Increased padding for left and right
+    marginVertical: 6,
     width: '100%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -180,33 +182,33 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   rank: {
-    fontSize: 14, // Smaller font size
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#80cbc4',
     marginRight: 12,
   },
   image: {
-    width: 40, // Smaller image
+    width: 40,
     height: 40,
-    borderRadius: 5, // Less rounded
+    borderRadius: 5,
     marginRight: 12,
   },
   placeholderImage: {
-    width: 40, // Smaller placeholder
+    width: 40,
     height: 40,
-    borderRadius: 5, // Less rounded
+    borderRadius: 5,
     backgroundColor: '#333',
     marginRight: 12,
   },
   text: {
-    fontSize: 14, // Smaller font size
+    fontSize: 14,
     color: '#fff',
     flexShrink: 1,
   },
   switchButton: {
     marginLeft: 'auto',
-    padding: 6, // Smaller button
-    borderRadius: 10, // Less rounded
+    padding: 6,
+    borderRadius: 10,
     backgroundColor: '#333',
   },
   switchButtonActive: {
@@ -214,27 +216,29 @@ const styles = StyleSheet.create({
   },
   switchButtonText: {
     color: '#fff',
-    fontSize: 12, // Smaller font size
+    fontSize: 12,
   },
   deleteButton: {
     marginLeft: 8,
-    padding: 6, // Smaller button
-    borderRadius: 10, // Less rounded
-    backgroundColor: '#ff5252', // Red delete button
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: '#c23b22',
   },
   deleteButtonText: {
     color: '#fff',
-    fontSize: 12, // Smaller font size
+    fontSize: 12,
   },
   saveButton: {
-    backgroundColor: '#80cbc4', // Accent color for save button
+    backgroundColor: '#fff',
     padding: 16,
-    borderRadius: 25, // Rounded button
+    paddingHorizontal: 24, // Increased padding for left and right
+    borderRadius: 25,
     alignItems: 'center',
     marginTop: 16,
+    marginBottom: 16,
   },
   saveButtonText: {
-    color: '#121212', // Dark text for contrast
+    color: '#121212',
     fontSize: 16,
     fontWeight: 'bold',
   },
