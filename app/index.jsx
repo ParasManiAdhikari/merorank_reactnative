@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Image, StyleSheet, ScrollView, FlatList, ImageBackground } from 'react-native';
 
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -108,32 +108,34 @@ export default function TopicPage() {
       )}
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
-          <View
-            key={item.id}
-            style={[
-              styles.pill,
-              item.deleting && styles.pillDeleting, // Apply white background if deleting
-            ]}
-          >
-            <Text style={styles.rank}>{index + 1}.</Text>
-            {item.image ? (
-              <Image source={{ uri: item.image }} style={styles.image} />
-            ) : (
-              <View style={styles.placeholderImage} />
-            )}
-            <Text style={styles.text}>{item.title}</Text>
-            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-              <Text style={styles.deleteButtonText}>✖</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
-              onPress={() => handleSwitch(item.id)}
+          <View key={item.id} style={styles.pillContainer}>
+            <ImageBackground
+              source={{ uri: item.image }}
+              style={styles.pillBackground}
+              imageStyle={styles.pillBackgroundImage}
+              blurRadius={240} // Apply blur effect
             >
-              <Text style={styles.switchButtonText}>
-                {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
-              </Text>
-            </TouchableOpacity>
-          
+              <View style={styles.pillContent}>
+                <Text style={styles.rank}>{index + 1}.</Text>
+                {item.image ? (
+                  <Image source={{ uri: item.image }} style={styles.image} />
+                ) : (
+                  <View style={styles.placeholderImage} />
+                )}
+                <Text style={styles.text}>{item.title}</Text>
+                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
+                  <Text style={styles.deleteButtonText}>✖</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
+                  onPress={() => handleSwitch(item.id)}
+                >
+                  <Text style={styles.switchButtonText}>
+                    {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </ImageBackground>
           </View>
         ))}
       </ScrollView>
@@ -180,25 +182,25 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginVertical: 16,
   },
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1e1e1e',
-    borderRadius: 10,
-    padding: 0, // Reduced padding
-    paddingHorizontal: 16, // Reduced horizontal padding
+  pillContainer: {
     marginVertical: 6,
     width: '100%',
-    minHeight: 80, // Maintain the same height
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 1,
+    minHeight: 80,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
-  pillDeleting: {
-    backgroundColor: '#ff746c', // Turn the item white
-    opacity: 0.8, // Slight fade effect
+  pillBackground: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  pillBackgroundImage: {
+    borderRadius: 10,
+  },
+  pillContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   rank: {
     fontSize: 18,
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
   },
   switchButtonText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 30,
   },
   deleteButton: {
     marginLeft: 'auto',
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 20,
   },
   saveButton: {
     backgroundColor: '#fff',
