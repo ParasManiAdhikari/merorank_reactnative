@@ -83,7 +83,7 @@ export default function TopicPage() {
 
     setTimeout(() => {
       setMyItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    }, 300); // Delay to allow animation
+    }, 300);
   };
 
   return (
@@ -200,10 +200,10 @@ const styles = StyleSheet.create({
     opacity: 0.8, // Slight fade effect
   },
   rank: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
-    marginRight: 20, // Increased margin to adjust horizontal position
+    marginRight: 12, // Increased margin to adjust horizontal position
   },
   image: {
     width: 40,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     width: 40, // Set width for circular button
     height: 40, // Set height for circular button
-    borderRadius: 20, // Make it circular
+    borderRadius: 5, // Make it circular
     backgroundColor: '#333',
     justifyContent: 'center', // Center the content
     alignItems: 'center', // Center the content
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     width: 40, // Set width for circular button
     height: 40, // Set height for circular button
-    borderRadius: 20, // Make it circular
+    borderRadius: 5, // Make it circular
     backgroundColor: '#ff746c',
     justifyContent: 'center', // Center the content
     alignItems: 'center', // Center the content
