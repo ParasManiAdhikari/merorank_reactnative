@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image, StyleSheet, ScrollView, FlatList, ImageBackground } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import MyItemPill from './components/MyItemPill';
+import styles from './styles';
 
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -108,63 +110,14 @@ export default function TopicPage() {
       )}
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
-          <View key={item.id} style={styles.pillContainer}>
-            {item.deleting ? (
-              <View style={[styles.pillBackground, styles.pillDeletingBackground]}>
-                <View style={styles.pillContent}>
-                  <Text style={styles.rank}>{index + 1}.</Text>
-                  {item.image ? (
-                    <Image source={{ uri: item.image }} style={styles.image} />
-                  ) : (
-                    <View style={styles.placeholderImage} />
-                  )}
-                  <Text style={styles.text}>{item.title}</Text>
-                  <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-                    <Text style={styles.deleteButtonText}>✖</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
-                    onPress={() => handleSwitch(item.id)}
-                  >
-                    <Text style={styles.switchButtonText}>
-                      {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ) : (
-              <ImageBackground
-                source={item.image ? { uri: item.image } : null}
-                style={[
-                  styles.pillBackground,
-                  !item.image && styles.defaultBackground, // Apply yellow background if no image
-                ]}
-                imageStyle={styles.pillBackgroundImage}
-                blurRadius={item.image ? 100 : 0} // No blur if no image
-              >
-                <View style={styles.pillContent}>
-                  <Text style={styles.rank}>{index + 1}.</Text>
-                  {item.image ? (
-                    <Image source={{ uri: item.image }} style={styles.image} />
-                  ) : (
-                    <View style={styles.placeholderImage} />
-                  )}
-                  <Text style={styles.text}>{item.title}</Text>
-                  <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-                    <Text style={styles.deleteButtonText}>✖</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
-                    onPress={() => handleSwitch(item.id)}
-                  >
-                    <Text style={styles.switchButtonText}>
-                      {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </ImageBackground>
-            )}
-          </View>
+          <MyItemPill
+            key={item.id}
+            item={item}
+            index={index}
+            activeSwitches={activeSwitches}
+            handleDeleteItem={handleDeleteItem}
+            handleSwitch={handleSwitch}
+          />
         ))}
       </ScrollView>
       <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
@@ -173,134 +126,3 @@ export default function TopicPage() {
     </View>
   );
 }
-
-// Stye
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24, // Increased padding for left and right
-    paddingTop: 80, // Adjusted for removed header
-    backgroundColor: '#121212',
-  },
-  searchBar: {
-    height: 50,
-    borderColor: '#333',
-    borderWidth: 1,
-    borderRadius: 25,
-    paddingHorizontal: 24, // Increased padding for left and right
-    marginBottom: 16,
-    backgroundColor: '#1e1e1e',
-    color: '#fff',
-    fontSize: 16,
-  },
-  searchResult: {
-    padding: 12,
-    paddingHorizontal: 24, // Increased padding for left and right
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
-    backgroundColor: '#1e1e1e',
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  searchResultText: {
-    fontSize: 16,
-    color: '#fff', // This determines the color of the search results text
-  },
-  itemsContainer: {
-    flexDirection: 'column',
-    marginVertical: 16,
-  },
-  pillContainer: {
-    marginVertical: 6,
-    width: '100%',
-    minHeight: 80,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-  pillBackground: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  pillDeletingBackground: {
-    backgroundColor: '#ff746c',
-  },
-  pillBackgroundImage: {
-    borderRadius: 10,
-  },
-  defaultBackground: {
-    backgroundColor: '#1e1e1e',
-  },
-  pillContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
-  rank: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginRight: 12, // Increased margin to adjust horizontal position
-  },
-  image: {
-    width: 40,
-    height: 40,
-    borderRadius: 5,
-    marginRight: 12,
-  },
-  placeholderImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 5,
-    backgroundColor: '#333',
-    marginRight: 12,
-  },
-  text: {
-    fontSize: 14,
-    color: '#fff',
-    flexShrink: 1,
-  },
-  switchButton: {
-    marginLeft: 8,
-    width: 40, // Set width for circular button
-    height: 40, // Set height for circular button
-    borderRadius: 5, // Make it circular
-    backgroundColor: '#333',
-    justifyContent: 'center', // Center the content
-    alignItems: 'center', // Center the content
-  },
-  switchButtonActive: {
-    backgroundColor: '#f4a460',
-  },
-  switchButtonText: {
-    color: '#fff',
-    fontSize: 25,
-  },
-  deleteButton: {
-    marginLeft: 'auto',
-    width: 40, // Set width for circular button
-    height: 40, // Set height for circular button
-    borderRadius: 5, // Make it circular
-    backgroundColor: '#ff746c',
-    justifyContent: 'center', // Center the content
-    alignItems: 'center', // Center the content
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  saveButton: {
-    backgroundColor: '#fff',
-    padding: 16,
-    paddingHorizontal: 24, // Increased padding for left and right
-    borderRadius: 25,
-    alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 16,
-  },
-  saveButtonText: {
-    color: '#121212',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
