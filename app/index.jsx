@@ -134,10 +134,13 @@ export default function TopicPage() {
               </View>
             ) : (
               <ImageBackground
-                source={{ uri: item.image }}
-                style={styles.pillBackground}
+                source={item.image ? { uri: item.image } : null}
+                style={[
+                  styles.pillBackground,
+                  !item.image && styles.defaultBackground, // Apply yellow background if no image
+                ]}
                 imageStyle={styles.pillBackgroundImage}
-                blurRadius={10} // Apply blur effect
+                blurRadius={item.image ? 100 : 0} // No blur if no image
               >
                 <View style={styles.pillContent}>
                   <Text style={styles.rank}>{index + 1}.</Text>
@@ -224,6 +227,9 @@ const styles = StyleSheet.create({
   pillBackgroundImage: {
     borderRadius: 10,
   },
+  defaultBackground: {
+    backgroundColor: '#1e1e1e',
+  },
   pillContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -264,7 +270,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Center the content
   },
   switchButtonActive: {
-    backgroundColor: '#597d35',
+    backgroundColor: '#f4a460',
   },
   switchButtonText: {
     color: '#fff',
