@@ -102,7 +102,7 @@ export default function TopicPage() {
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
           <View key={item.id} style={styles.pill}>
-            <Text style={styles.rank}>{index + 1}</Text>
+            <Text style={styles.rank}>{index + 1}.</Text>
             {item.image ? (
               <Image source={{ uri: item.image }} style={styles.image} />
             ) : (
@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
   rank: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#80cbc4',
-    marginRight: 12,
+    color: '#fff',
+    marginRight: 20, // Increased margin to adjust horizontal position
   },
   image: {
     width: 40,
@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     marginLeft: 'auto',
-    padding: 6,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 5,
     backgroundColor: '#333',
   },
   switchButtonActive: {
-    backgroundColor: '#80cbc4',
+    backgroundColor: '#597d35',
   },
   switchButtonText: {
     color: '#fff',
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginLeft: 8,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     backgroundColor: '#c23b22',
   },
   deleteButtonText: {
