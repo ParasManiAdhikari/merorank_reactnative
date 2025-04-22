@@ -97,6 +97,7 @@ export default function TopicPage() {
         onChangeText={setSearchQuery}
         placeholderTextColor="#888"
       />
+      {/* SEARCH VIEW */}
       {searchResults.length > 0 && (
         <FlatList
           data={searchResults}
@@ -108,6 +109,7 @@ export default function TopicPage() {
           )}
         />
       )}
+      {/* myItems VIEW */}
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
           <MyItemPill
@@ -120,6 +122,8 @@ export default function TopicPage() {
           />
         ))}
       </ScrollView>
+      
+      {/* SAVE BUTTON */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
         <Text style={styles.saveButtonText}>Save Topic</Text>
       </TouchableOpacity>
