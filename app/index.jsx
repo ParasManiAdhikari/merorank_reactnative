@@ -127,11 +127,11 @@ export default function TopicPage() {
               onPress={() => handleSwitch(item.id)}
             >
               <Text style={styles.switchButtonText}>
-                {activeSwitches.includes(item.id) ? 'Active' : 'Switch'}
+                {activeSwitches.includes(item.id) ? '↔' : '↔'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-              <Text style={styles.deleteButtonText}>Delete</Text>
+              <Text style={styles.deleteButtonText}>✖</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -184,10 +184,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1e1e1e',
     borderRadius: 10,
-    padding: 20,
-    paddingHorizontal: 24, // Increased padding for left and right
+    padding: 0, // Reduced padding
+    paddingHorizontal: 16, // Reduced horizontal padding
     marginVertical: 6,
     width: '100%',
+    minHeight: 80, // Maintain the same height
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
@@ -195,7 +196,7 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   pillDeleting: {
-    backgroundColor: '#c23b22', // Turn the item white
+    backgroundColor: '#ff746c', // Turn the item white
     opacity: 0.8, // Slight fade effect
   },
   rank: {
@@ -224,22 +225,28 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     marginLeft: 'auto',
-    padding: 10,
-    borderRadius: 5,
+    width: 40, // Set width for circular button
+    height: 40, // Set height for circular button
+    borderRadius: 20, // Make it circular
     backgroundColor: '#333',
+    justifyContent: 'center', // Center the content
+    alignItems: 'center', // Center the content
   },
   switchButtonActive: {
     backgroundColor: '#597d35',
   },
   switchButtonText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 15,
   },
   deleteButton: {
     marginLeft: 8,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: '#c23b22',
+    width: 40, // Set width for circular button
+    height: 40, // Set height for circular button
+    borderRadius: 20, // Make it circular
+    backgroundColor: '#ff746c',
+    justifyContent: 'center', // Center the content
+    alignItems: 'center', // Center the content
   },
   deleteButtonText: {
     color: '#fff',
