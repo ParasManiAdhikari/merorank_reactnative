@@ -122,17 +122,18 @@ export default function TopicPage() {
               <View style={styles.placeholderImage} />
             )}
             <Text style={styles.text}>{item.title}</Text>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
+              <Text style={styles.deleteButtonText}>✖</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
               onPress={() => handleSwitch(item.id)}
             >
               <Text style={styles.switchButtonText}>
-                {activeSwitches.includes(item.id) ? '↔' : '↔'}
+                {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-              <Text style={styles.deleteButtonText}>✖</Text>
-            </TouchableOpacity>
+          
           </View>
         ))}
       </ScrollView>
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     opacity: 0.8, // Slight fade effect
   },
   rank: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
     marginRight: 12, // Increased margin to adjust horizontal position
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   switchButton: {
-    marginLeft: 'auto',
+    marginLeft: 8,
     width: 40, // Set width for circular button
     height: 40, // Set height for circular button
     borderRadius: 5, // Make it circular
@@ -237,10 +238,10 @@ const styles = StyleSheet.create({
   },
   switchButtonText: {
     color: '#fff',
-    fontSize: 15,
+    fontSize: 20,
   },
   deleteButton: {
-    marginLeft: 8,
+    marginLeft: 'auto',
     width: 40, // Set width for circular button
     height: 40, // Set height for circular button
     borderRadius: 5, // Make it circular
