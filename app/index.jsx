@@ -109,33 +109,58 @@ export default function TopicPage() {
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
           <View key={item.id} style={styles.pillContainer}>
-            <ImageBackground
-              source={{ uri: item.image }}
-              style={styles.pillBackground}
-              imageStyle={styles.pillBackgroundImage}
-              blurRadius={240} // Apply blur effect
-            >
-              <View style={styles.pillContent}>
-                <Text style={styles.rank}>{index + 1}.</Text>
-                {item.image ? (
-                  <Image source={{ uri: item.image }} style={styles.image} />
-                ) : (
-                  <View style={styles.placeholderImage} />
-                )}
-                <Text style={styles.text}>{item.title}</Text>
-                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-                  <Text style={styles.deleteButtonText}>✖</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
-                  onPress={() => handleSwitch(item.id)}
-                >
-                  <Text style={styles.switchButtonText}>
-                    {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
-                  </Text>
-                </TouchableOpacity>
+            {item.deleting ? (
+              <View style={[styles.pillBackground, styles.pillDeletingBackground]}>
+                <View style={styles.pillContent}>
+                  <Text style={styles.rank}>{index + 1}.</Text>
+                  {item.image ? (
+                    <Image source={{ uri: item.image }} style={styles.image} />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
+                  <Text style={styles.text}>{item.title}</Text>
+                  <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
+                    <Text style={styles.deleteButtonText}>✖</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
+                    onPress={() => handleSwitch(item.id)}
+                  >
+                    <Text style={styles.switchButtonText}>
+                      {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </ImageBackground>
+            ) : (
+              <ImageBackground
+                source={{ uri: item.image }}
+                style={styles.pillBackground}
+                imageStyle={styles.pillBackgroundImage}
+                blurRadius={10} // Apply blur effect
+              >
+                <View style={styles.pillContent}>
+                  <Text style={styles.rank}>{index + 1}.</Text>
+                  {item.image ? (
+                    <Image source={{ uri: item.image }} style={styles.image} />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
+                  <Text style={styles.text}>{item.title}</Text>
+                  <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
+                    <Text style={styles.deleteButtonText}>✖</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
+                    onPress={() => handleSwitch(item.id)}
+                  >
+                    <Text style={styles.switchButtonText}>
+                      {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            )}
           </View>
         ))}
       </ScrollView>
@@ -193,6 +218,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  pillDeletingBackground: {
+    backgroundColor: '#ff746c',
+  },
   pillBackgroundImage: {
     borderRadius: 10,
   },
@@ -240,7 +268,7 @@ const styles = StyleSheet.create({
   },
   switchButtonText: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 25,
   },
   deleteButton: {
     marginLeft: 'auto',
