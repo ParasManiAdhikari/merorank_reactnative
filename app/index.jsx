@@ -84,6 +84,7 @@ export default function TopicPage() {
         placeholder="Search Wiki Articles"
         value={searchQuery}
         onChangeText={setSearchQuery}
+        placeholderTextColor="#888"
       />
       {searchResults.length > 0 && (
         <FlatList
@@ -127,25 +128,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5',
+    paddingTop: 80, // Adjusted for removed header
+    backgroundColor: '#121212', // Dark background
   },
   searchBar: {
-    height: 40,
-    borderColor: '#ccc',
+    height: 50,
+    borderColor: '#333',
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 25, // Rounded input
     paddingHorizontal: 16,
-    marginBottom: 8,
-    backgroundColor: '#fff',
+    marginBottom: 16,
+    backgroundColor: '#1e1e1e', // Darker input background
+    color: '#fff', // White text
+    fontSize: 16,
   },
   searchResult: {
-    padding: 10,
+    padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#333',
+    backgroundColor: '#1e1e1e', // Darker background for results
+    borderRadius: 8, // Slightly rounded corners
+    marginBottom: 8,
   },
   searchResultText: {
     fontSize: 16,
-    color: '#00796b',
+    color: '#80cbc4', // Accent color for text
   },
   itemsContainer: {
     flexDirection: 'column',
@@ -154,21 +161,21 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#e0f7fa',
+    backgroundColor: '#1e1e1e', // Darker pill background
     borderRadius: 50,
     padding: 12,
     marginVertical: 8,
     width: '100%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 2,
   },
   rank: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#00796b',
+    color: '#80cbc4', // Accent color for rank
     marginRight: 16,
   },
   image: {
@@ -179,31 +186,31 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: '#00796b',
+    color: '#fff', // White text
     flexShrink: 1,
   },
   switchButton: {
     marginLeft: 'auto',
     padding: 8,
     borderRadius: 20,
-    backgroundColor: '#ccc',
+    backgroundColor: '#333', // Dark button background
   },
   switchButtonActive: {
-    backgroundColor: '#00796b',
+    backgroundColor: '#80cbc4', // Accent color for active button
   },
   switchButtonText: {
-    color: '#fff',
+    color: '#fff', // White text
     fontSize: 14,
   },
   saveButton: {
-    backgroundColor: '#00796b',
-    padding: 12,
-    borderRadius: 20,
+    backgroundColor: '#80cbc4', // Accent color for save button
+    padding: 16,
+    borderRadius: 25, // Rounded button
     alignItems: 'center',
     marginTop: 16,
   },
   saveButtonText: {
-    color: '#fff',
+    color: '#121212', // Dark text for contrast
     fontSize: 16,
     fontWeight: 'bold',
   },
