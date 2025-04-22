@@ -1,170 +1,110 @@
-import React, { useState, useRef } from 'react';
-import { 
-  Text, 
-  View, 
-  StyleSheet, 
-  StatusBar, 
-  Animated, 
-  PanResponder,
-  LayoutAnimation,
-  Platform,
-  UIManager 
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Button, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
 
-// Enable LayoutAnimation for Android
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+export default function TopicPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [myItems, setMyItems] = useState([]);
 
-const ITEM_HEIGHT = 60;
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchQuery}`);
+      const data = await response.json();
+      if (data.title && data.thumbnail) {
+        const newItem = {
+          id: Date.now(),
+          title: data.title,
+          image: data.thumbnail.source,
+        };
+        setMyItems([...myItems, newItem]);
+        setSearchQuery('');
+      }
+    } catch (error) {
+      console.error('Error fetching wiki data:', error);
+    }
+  };
 
-// iOS dark mode colors
-const colors = {
-  background: '#1c1c1e',
-  cardBackground: '#2c2c2e',
-  text: '#ffffff',
-  secondaryText: '#ebebf5b3',
-  separator: '#38383a',
-};
-
-export default function MeroRank() {
-  const [items, setItems] = useState([
-    { id: '1', title: 'Item 1' },
-    { id: '2', title: 'Item 2' },
-    { id: '3', title: 'Item 3' },
-    { id: '4', title: 'Item 4' },
-    { id: '5', title: 'Item 5' },
-  ]);
+  const handleSaveTopic = () => {
+    console.log('Saved topic:', myItems);
+  };
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <Text style={styles.title}>MeroRank</Text>
-      <View style={styles.list}>
-        {items.map((item, index) => (
-          <DraggableItem
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            index={index}
-            items={items}
-            setItems={setItems}
-          />
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search Wiki Articles"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+      <Button title="Search" onPress={handleSearch} />
+      <ScrollView contentContainerStyle={styles.itemsContainer}>
+        {myItems.map((item) => (
+          <View key={item.id} style={styles.pill}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <Text style={styles.text}>{item.title}</Text>
+          </View>
         ))}
-      </View>
+      </ScrollView>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
+        <Text style={styles.saveButtonText}>Save Topic</Text>
+      </TouchableOpacity>
     </View>
-  );
-}
-
-function DraggableItem({ id, title, index, items, setItems }) {
-  // Animation value for the item's position
-  const pan = useRef(new Animated.ValueXY()).current;
-  const [isDragging, setIsDragging] = useState(false);
-  
-  // Create the PanResponder
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        setIsDragging(true);
-        pan.setOffset({
-          x: 0,
-          y: pan.y._value,
-        });
-        pan.setValue({ x: 0, y: 0 });
-      },
-      onPanResponderMove: Animated.event(
-        [null, { dy: pan.y }],
-        { useNativeDriver: false }
-      ),
-      onPanResponderRelease: (_, gesture) => {
-        pan.flattenOffset();
-        setIsDragging(false);
-        
-        // Calculate the new position based on the gesture
-        const moveDistance = gesture.dy;
-        const movePosition = Math.round(moveDistance / ITEM_HEIGHT);
-        
-        // Only update if there's a change in position
-        if (movePosition !== 0) {
-          const newIndex = Math.max(0, Math.min(items.length - 1, index + movePosition));
-          
-          if (newIndex !== index) {
-            // Create a new array with the item moved to the new position
-            const newItems = [...items];
-            const [movedItem] = newItems.splice(index, 1);
-            newItems.splice(newIndex, 0, movedItem);
-            
-            // Configure the animation
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-            
-            // Update the state with the new array
-            setItems(newItems);
-          }
-        }
-        
-        // Reset the pan position
-        Animated.spring(pan, {
-          toValue: { x: 0, y: 0 },
-          useNativeDriver: false,
-        }).start();
-      },
-    })
-  ).current;
-
-  return (
-    <Animated.View
-      style={[
-        styles.itemContainer,
-        {
-          transform: [{ translateY: pan.y }],
-          zIndex: isDragging ? 999 : 1,
-          shadowOpacity: isDragging ? 0.2 : 0,
-          backgroundColor: isDragging ? colors.separator : colors.cardBackground,
-        },
-      ]}
-      {...panResponder.panHandlers}
-    >
-      <Text style={styles.itemText}>{title}</Text>
-      <Text style={styles.dragHandle}>≡</Text>
-    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    padding: 16,
+    backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 20,
-    color: colors.text,
+  searchBar: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    backgroundColor: '#fff',
   },
-  list: {
-    marginHorizontal: 16,
+  itemsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginVertical: 16,
   },
-  itemContainer: {
-    height: ITEM_HEIGHT,
+  pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderRadius: 2,
-    marginVertical: 4,
+    backgroundColor: '#e0f7fa',
+    borderRadius: 20,
+    padding: 8,
+    margin: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
     elevation: 2,
   },
-  itemText: {
-    fontSize: 16,
-    color: colors.text,
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 8,
   },
-  dragHandle: {
-    fontSize: 20,
-    color: colors.secondaryText,
+  text: {
+    fontSize: 16,
+    color: '#00796b',
+  },
+  saveButton: {
+    backgroundColor: '#00796b',
+    padding: 12,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
