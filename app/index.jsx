@@ -76,7 +76,14 @@ export default function TopicPage() {
   };
 
   const handleDeleteItem = (id) => {
-    setMyItems(myItems.filter((item) => item.id !== id));
+    const updatedItems = myItems.map((item) =>
+      item.id === id ? { ...item, deleting: true } : item
+    );
+    setMyItems(updatedItems);
+
+    setTimeout(() => {
+      setMyItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    }, 300); // Delay to allow animation
   };
 
   return (
@@ -101,7 +108,13 @@ export default function TopicPage() {
       )}
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
-          <View key={item.id} style={styles.pill}>
+          <View
+            key={item.id}
+            style={[
+              styles.pill,
+              item.deleting && styles.pillDeleting, // Apply white background if deleting
+            ]}
+          >
             <Text style={styles.rank}>{index + 1}.</Text>
             {item.image ? (
               <Image source={{ uri: item.image }} style={styles.image} />
@@ -180,6 +193,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 1,
+  },
+  pillDeleting: {
+    backgroundColor: '#c23b22', // Turn the item white
+    opacity: 0.8, // Slight fade effect
   },
   rank: {
     fontSize: 14,
