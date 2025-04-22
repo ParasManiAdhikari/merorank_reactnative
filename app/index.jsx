@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Text, TouchableOpacity, Image, StyleSheet, ScrollView, FlatList } from 'react-native';
 
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [myItems, setMyItems] = useState([]);
   const [activeSwitches, setActiveSwitches] = useState([]);
 
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      const timeoutId = setTimeout(() => {
+        handleSearch();
+      }, 500); // Debounce to avoid excessive API calls
+      return () => clearTimeout(timeoutId);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+
   const handleSearch = async () => {
     try {
-      const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${searchQuery}`);
+      const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${searchQuery}&origin=*`);
+      const data = await response.json();
+      if (data.query && data.query.search) {
+        setSearchResults(data.query.search);
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const handleSelectResult = async (title) => {
+    try {
+      const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
       const data = await response.json();
       if (data.title && data.thumbnail) {
         const newItem = {
@@ -18,6 +42,7 @@ export default function TopicPage() {
         };
         setMyItems([...myItems, newItem]);
         setSearchQuery('');
+        setSearchResults([]);
       }
     } catch (error) {
       console.error('Error fetching wiki data:', error);
@@ -60,7 +85,17 @@ export default function TopicPage() {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <Button title="Search" onPress={handleSearch} />
+      {searchResults.length > 0 && (
+        <FlatList
+          data={searchResults}
+          keyExtractor={(item) => item.pageid.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.searchResult} onPress={() => handleSelectResult(item.title)}>
+              <Text style={styles.searchResultText}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
       <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
           <View key={item.id} style={styles.pill}>
@@ -102,6 +137,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 8,
     backgroundColor: '#fff',
+  },
+  searchResult: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  searchResultText: {
+    fontSize: 16,
+    color: '#00796b',
   },
   itemsContainer: {
     flexDirection: 'column',
