@@ -24,15 +24,17 @@ export default function MyItemPill({ item, index, activeSwitches, handleDeleteIt
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
               <Text style={styles.deleteButtonText}>✖</Text>
             </TouchableOpacity>
-            {/* SWITCH BUTTON */}
-            <TouchableOpacity
-              style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
-              onPress={() => handleSwitch(item.id)}
-            >
-              <Text style={styles.switchButtonText}>
-                {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
-              </Text>
-            </TouchableOpacity>
+            {/* SWITCH BUTTON - Hidden when deleting */}
+            {!item.deleting && (
+              <TouchableOpacity
+                style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
+                onPress={() => handleSwitch(item.id)}
+              >
+                <Text style={styles.switchButtonText}>
+                  {activeSwitches.includes(item.id) ? ' ⥮ ' : ' ⥮ '}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       ) : (
