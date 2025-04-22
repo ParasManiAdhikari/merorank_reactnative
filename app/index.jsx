@@ -34,16 +34,14 @@ export default function TopicPage() {
     try {
       const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`);
       const data = await response.json();
-      if (data.title && data.thumbnail) {
-        const newItem = {
-          id: Date.now(),
-          title: data.title,
-          image: data.thumbnail.source,
-        };
-        setMyItems([...myItems, newItem]);
-        setSearchQuery('');
-        setSearchResults([]);
-      }
+      const newItem = {
+        id: Date.now(),
+        title: data.title,
+        image: data.thumbnail?.source || null, // Fallback to null if no image
+      };
+      setMyItems([...myItems, newItem]);
+      setSearchQuery('');
+      setSearchResults([]);
     } catch (error) {
       console.error('Error fetching wiki data:', error);
     }
@@ -77,6 +75,10 @@ export default function TopicPage() {
     console.log('Saved topic:', myItems);
   };
 
+  const handleDeleteItem = (id) => {
+    setMyItems(myItems.filter((item) => item.id !== id));
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -101,18 +103,22 @@ export default function TopicPage() {
         {myItems.map((item, index) => (
           <View key={item.id} style={styles.pill}>
             <Text style={styles.rank}>{index + 1}</Text>
-            <Image source={{ uri: item.image }} style={styles.image} />
+            {item.image ? (
+              <Image source={{ uri: item.image }} style={styles.image} />
+            ) : (
+              <View style={styles.placeholderImage} />
+            )}
             <Text style={styles.text}>{item.title}</Text>
             <TouchableOpacity
-              style={[
-                styles.switchButton,
-                activeSwitches.includes(item.id) && styles.switchButtonActive,
-              ]}
+              style={[styles.switchButton, activeSwitches.includes(item.id) && styles.switchButtonActive]}
               onPress={() => handleSwitch(item.id)}
             >
               <Text style={styles.switchButtonText}>
                 {activeSwitches.includes(item.id) ? 'Active' : 'Switch'}
               </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
+              <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -124,6 +130,7 @@ export default function TopicPage() {
   );
 }
 
+// Stye
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -162,45 +169,62 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1e1e1e', // Darker pill background
-    borderRadius: 50,
-    padding: 12,
-    marginVertical: 8,
+    borderRadius: 10, // Less rounded
+    padding: 8, // Smaller padding
+    marginVertical: 6, // Smaller margin
     width: '100%',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 1,
   },
   rank: {
-    fontSize: 18,
+    fontSize: 14, // Smaller font size
     fontWeight: 'bold',
-    color: '#80cbc4', // Accent color for rank
-    marginRight: 16,
+    color: '#80cbc4',
+    marginRight: 12,
   },
   image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 16,
+    width: 40, // Smaller image
+    height: 40,
+    borderRadius: 5, // Less rounded
+    marginRight: 12,
+  },
+  placeholderImage: {
+    width: 40, // Smaller placeholder
+    height: 40,
+    borderRadius: 5, // Less rounded
+    backgroundColor: '#333',
+    marginRight: 12,
   },
   text: {
-    fontSize: 18,
-    color: '#fff', // White text
+    fontSize: 14, // Smaller font size
+    color: '#fff',
     flexShrink: 1,
   },
   switchButton: {
     marginLeft: 'auto',
-    padding: 8,
-    borderRadius: 20,
-    backgroundColor: '#333', // Dark button background
+    padding: 6, // Smaller button
+    borderRadius: 10, // Less rounded
+    backgroundColor: '#333',
   },
   switchButtonActive: {
-    backgroundColor: '#80cbc4', // Accent color for active button
+    backgroundColor: '#80cbc4',
   },
   switchButtonText: {
-    color: '#fff', // White text
-    fontSize: 14,
+    color: '#fff',
+    fontSize: 12, // Smaller font size
+  },
+  deleteButton: {
+    marginLeft: 8,
+    padding: 6, // Smaller button
+    borderRadius: 10, // Less rounded
+    backgroundColor: '#ff5252', // Red delete button
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontSize: 12, // Smaller font size
   },
   saveButton: {
     backgroundColor: '#80cbc4', // Accent color for save button
