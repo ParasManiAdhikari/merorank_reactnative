@@ -22,7 +22,7 @@ export default function MyItemPill({ item, index, activeSwitches, handleDeleteIt
             <Text style={styles.text}>{item.title}</Text>
             {/* DELETE BUTTON */}
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteItem(item.id)}>
-              <Text style={styles.deleteButtonText}>x</Text>
+              <Text style={styles.deleteButtonText}>✖</Text>
             </TouchableOpacity>
             {/* SWITCH BUTTON - Hidden when deleting */}
             {!item.deleting && (
