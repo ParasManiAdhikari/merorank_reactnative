@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   aiButtonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   searchResult: {

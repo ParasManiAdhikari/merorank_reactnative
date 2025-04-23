@@ -103,7 +103,7 @@ export default function TopicPage() {
           placeholderTextColor="#888"
         />
         <TouchableOpacity style={styles.aiButton} onPress={handleAIClick}>
-          <Text style={styles.aiButtonText}>AI</Text>
+          <Text style={styles.aiButtonText}>✵</Text>
         </TouchableOpacity>
       </View>
       {/* SEARCH VIEW */}
