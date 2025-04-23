@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   pillContainer: {
     marginVertical: 4, // Adjusted spacing
     width: '100%',
-    minHeight: 70, // Reduced height for proportionality
+    height: 70, // Fixed height for consistent size
     borderRadius: 50,
     overflow: 'hidden',
   },
@@ -85,13 +85,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
-    marginLeft: 10,
+    width: 30,
   },
   image: {
     width: 40,
     height: 40,
     borderRadius: 5,
-    marginStart: 20,
+    marginStart: 3,
     marginRight: 12
   },
   placeholderImage: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     backgroundColor: '#333',
-    marginStart: 20,
+    marginStart: 3,
     marginRight: 12
   },
   text: {
