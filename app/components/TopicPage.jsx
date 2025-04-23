@@ -91,7 +91,7 @@ export default function TopicPage() {
 
   const handleAIClick = async () => {
     if (!searchQuery.trim()) return;
-  
+
     try {
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -104,32 +104,33 @@ export default function TopicPage() {
           messages: [
             {
               role: "user",
-              content: `List 10 "${searchQuery}". Return only the answers as plain text, one per line. Do not include any other text or warnings.`
+              content: `List exact 10 "${searchQuery}". Return only the answers as plain text, one per line. Do not include any other text or warnings. Do not put any text before and after the list`
             }
           ]
         })
       });
-  
+
       const data = await response.json();
       const textOutput = data.choices?.[0]?.message?.content || '';
       console.log('Content:', textOutput);
       const items = textOutput
         .split('\n')
-        .map((line, index) => line.replace(/^\d+[\).]?\s*/, '').trim()) // Clean list format
+        .map((line) => line.replace(/^[\s\uFEFF]*\d+[\).]?\s*/, '').trim()) // ELement cleanup
         .filter(line => line)
         .map((title, i) => ({
           id: Date.now() + i,
           title,
-          image: 'https://via.placeholder.com/150' // Placeholder image
+          image: null,
         }));
-  
+
+
       setMyItems([...myItems, ...items]);
       setSearchQuery('');
     } catch (error) {
       console.error('Error fetching from OpenRouter:', error);
     }
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -171,7 +172,7 @@ export default function TopicPage() {
           />
         ))}
       </ScrollView>
-      
+
       {/* SAVE BUTTON */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
         <Text style={styles.saveButtonText}>Save Topic</Text>
