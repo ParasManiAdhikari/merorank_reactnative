@@ -4,14 +4,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 80,
+    paddingTop: 50,
     backgroundColor: '#121212',
   },
   searchBar: {
-    height: 50,
+    height: 60,
     borderColor: '#333',
     borderWidth: 1,
-    borderRadius: 25,
+    borderRadius: 30,
     paddingHorizontal: 24,
     marginBottom: 16,
     backgroundColor: '#1e1e1e',
@@ -65,20 +65,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
-    marginRight: 12,
   },
   image: {
     width: 40,
     height: 40,
     borderRadius: 5,
-    marginRight: 12,
+    marginStart: 20,
+    marginRight: 12
   },
   placeholderImage: {
     width: 40,
     height: 40,
     borderRadius: 5,
     backgroundColor: '#333',
-    marginRight: 12,
+    marginStart: 20,
+    marginRight: 12
   },
   text: {
     fontSize: 14,
