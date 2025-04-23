@@ -88,18 +88,28 @@ export default function TopicPage() {
     }, 300);
   };
 
+  const handleAIClick = () => {
+    console.log('AI button clicked');
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search Wiki Articles"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholderTextColor="#888"
-      />
+      <View style={styles.searchBarRow}>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search Wiki Articles"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholderTextColor="#888"
+        />
+        <TouchableOpacity style={styles.aiButton} onPress={handleAIClick}>
+          <Text style={styles.aiButtonText}>AI</Text>
+        </TouchableOpacity>
+      </View>
       {/* SEARCH VIEW */}
       {searchResults.length > 0 && (
         <FlatList
+          style={{ flex: 1 }} // Ensures it fills available space
           data={searchResults}
           keyExtractor={(item) => item.pageid.toString()}
           renderItem={({ item }) => (
@@ -110,7 +120,7 @@ export default function TopicPage() {
         />
       )}
       {/* myItems VIEW */}
-      <ScrollView contentContainerStyle={styles.itemsContainer}>
+      <ScrollView contentContainerStyle={[styles.itemsContainer, { flexGrow: 1 }]}>
         {myItems.map((item, index) => (
           <MyItemPill
             key={item.id}

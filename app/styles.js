@@ -7,16 +7,35 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     backgroundColor: '#121212',
   },
+  searchBarRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12, // Adjusted spacing
+  },
   searchBar: {
-    height: 60,
+    flex: 1, // Ensures it fills available space
+    height: 50, // Reduced height for better fit
     borderColor: '#333',
     borderWidth: 1,
-    borderRadius: 30,
-    paddingHorizontal: 24,
-    marginBottom: 16,
+    borderRadius: 25, // Adjusted for proportionality
+    paddingHorizontal: 16,
     backgroundColor: '#1e1e1e',
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
+  },
+  aiButton: {
+    height: 50, // Adjusted to match searchBar height
+    width: 100, // Adjusted for proportionality
+    marginLeft: 12,
+    borderRadius: 50,
+    backgroundColor: '#f4a460',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  aiButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   searchResult: {
     padding: 12,
@@ -32,14 +51,15 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   itemsContainer: {
+    flex: 1, // Ensures it fills remaining space
     flexDirection: 'column',
-    marginVertical: 16,
+    marginVertical: 8, // Adjusted spacing
   },
   pillContainer: {
-    marginVertical: 6,
+    marginVertical: 4, // Adjusted spacing
     width: '100%',
-    minHeight: 80,
-    borderRadius: 10,
+    minHeight: 70, // Reduced height for proportionality
+    borderRadius: 8,
     overflow: 'hidden',
   },
   pillBackground: {
