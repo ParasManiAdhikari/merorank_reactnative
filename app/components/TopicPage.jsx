@@ -133,11 +133,11 @@ export default function TopicPage() {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { flex: 1 }]}>
       <View style={styles.searchBarRow}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Search Wiki Articles"
+          placeholder="Search Anything"
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholderTextColor="#888"
@@ -160,7 +160,7 @@ export default function TopicPage() {
         />
       )}
       {/* myItems VIEW */}
-      <ScrollView contentContainerStyle={[styles.itemsContainer, { flexGrow: 1 }]}>
+      <ScrollView contentContainerStyle={styles.itemsContainer}>
         {myItems.map((item, index) => (
           <MyItemPill
             key={item.id}

@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   itemsContainer: {
-    flex: 1, // Ensures it fills remaining space
     flexDirection: 'column',
     marginVertical: 8, // Adjusted spacing
   },
