@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
+    gap: 12, // Space between buttons
   },
   clearButton: {
     flex: 0.4, // Ensures it's smaller than the save button
@@ -159,7 +160,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 25,
     alignItems: 'center',
-    marginLeft: 8, // Space between buttons
   },
   saveButtonText: {
     color: '#fff',
