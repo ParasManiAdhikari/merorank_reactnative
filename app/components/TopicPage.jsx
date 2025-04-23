@@ -88,9 +88,46 @@ export default function TopicPage() {
     }, 300);
   };
 
-  const handleAIClick = () => {
-    console.log('AI button clicked');
+  const handleAIClick = async () => {
+    if (!searchQuery.trim()) return;
+  
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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" // Replace with env or secret store in production
+        },
+        body: JSON.stringify({
+          model: "mistralai/mistral-7b-instruct",
+          messages: [
+            {
+              role: "user",
+              content: `List 5 things related to: "${searchQuery}". Return as plain text list.`
+            }
+          ]
+        })
+      });
+  
+      const data = await response.json();
+      const textOutput = data.choices?.[0]?.message?.content || '';
+      const items = textOutput
+        .split('\n')
+        .map((line, index) => line.replace(/^\d+[\).]?\s*/, '').trim()) // Clean list format
+        .filter(line => line)
+        .map((title, i) => ({
+          id: Date.now() + i,
+          title,
+          image: 'https://via.placeholder.com/150' // Placeholder image
+        }));
+  
+      setMyItems([...myItems, ...items]);
+      setSearchQuery('');
+    } catch (error) {
+      console.error('Error fetching from OpenRouter:', error);
+    }
   };
+  
 
   return (
     <View style={styles.container}>
