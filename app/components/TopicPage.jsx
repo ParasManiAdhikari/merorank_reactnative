@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import MyItemPill from './MyItemPill';
 import styles from '../styles';
+import { OPENROUTER_API_KEY } from '@env';
 
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,7 +97,7 @@ export default function TopicPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer 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" // Replace with env or secret store in production
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}` // Use imported variable
         },
         body: JSON.stringify({
           model: "mistralai/mistral-7b-instruct",
