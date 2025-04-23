@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 50,
+    padding: 30,
+    paddingTop: 60,
+    paddingBottom: 40,
     backgroundColor: '#121212',
   },
   searchBarRow: {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pillDeletingBackground: {
-    backgroundColor: '#ff746c',
+    backgroundColor: '#F48A60',
   },
   pillBackgroundImage: {
     borderRadius: 10,
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   },
   switchButton: {
     marginLeft: 8,
-    width: 40,
+    width: 50,
     height: 40,
     borderRadius: 5,
     backgroundColor: '#333',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 5,
-    backgroundColor: '#ff746c',
+    backgroundColor: '#F48A60',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -134,17 +135,34 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
   },
-  saveButton: {
-    backgroundColor: '#fff',
-    padding: 16,
-    paddingHorizontal: 24,
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
+  },
+  clearButton: {
+    flex: 0.4, // Ensures it's smaller than the save button
+    backgroundColor: '#333',
+    padding: 12,
     borderRadius: 25,
     alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 16,
+    justifyContent: 'center', // Centers the text vertically
+  },
+  clearButtonText: {
+    color: '#FCD7AF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  saveButton: {
+    flex: 1,
+    backgroundColor: '#333',
+    padding: 16,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginLeft: 8, // Space between buttons
   },
   saveButtonText: {
-    color: '#121212',
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

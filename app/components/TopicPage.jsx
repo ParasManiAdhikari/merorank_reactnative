@@ -89,6 +89,10 @@ export default function TopicPage() {
     }, 300);
   };
 
+  const handleClearItems = () => {
+    setMyItems([]);
+  };
+
   const handleAIClick = async () => {
     if (!searchQuery.trim()) return;
 
@@ -173,10 +177,18 @@ export default function TopicPage() {
         ))}
       </ScrollView>
 
-      {/* SAVE BUTTON */}
-      <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
-        <Text style={styles.saveButtonText}>Save Topic</Text>
-      </TouchableOpacity>
+      {/* Footer ROW */}
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          style={[styles.clearButton]}
+          onPress={handleClearItems}
+        >
+          <Text style={styles.clearButtonText}>Clear</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
+          <Text style={styles.saveButtonText}>Save Topic</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
