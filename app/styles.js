@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginVertical: 4, // Adjusted spacing
     width: '100%',
     minHeight: 70, // Reduced height for proportionality
-    borderRadius: 8,
+    borderRadius: 50,
     overflow: 'hidden',
   },
   pillBackground: {
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+    marginLeft: 10,
   },
   image: {
     width: 40,
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 10,
   },
   switchButtonActive: {
     backgroundColor: '#f4a460',

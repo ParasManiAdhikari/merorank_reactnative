@@ -186,7 +186,7 @@ export default function TopicPage() {
           <Text style={styles.clearButtonText}>Clear</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.saveButton} onPress={handleSaveTopic}>
-          <Text style={styles.saveButtonText}>Save Topic</Text>
+          <Text style={styles.saveButtonText}>Save Ranking</Text>
         </TouchableOpacity>
       </View>
     </View>

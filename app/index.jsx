@@ -12,7 +12,7 @@ export default function HomePage() {
         style={[styles.saveButton, { flex: 1, justifyContent: 'center' }]} // Adjusted to fill container
         onPress={() => router.push('/components/TopicPage')}
       >
-        <Text style={styles.saveButtonText}>Go to Topic Page</Text>
+        <Text style={styles.saveButtonText}>Create a Ranking</Text>
       </TouchableOpacity>
     </View>
   );
