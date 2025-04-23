@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import MyItemPill from './MyItemPill';
 import styles from '../styles';
-import { OPENROUTER_API_KEY } from '@env';
+import { API_KEY } from '@env';
 
 export default function TopicPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -97,14 +97,14 @@ export default function TopicPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${OPENROUTER_API_KEY}` // Use imported variable
+          "Authorization": `Bearer ${API_KEY}` // Use imported variable
         },
         body: JSON.stringify({
           model: "mistralai/mistral-7b-instruct",
           messages: [
             {
               role: "user",
-              content: `List 5 things related to: "${searchQuery}". Return as plain text list.`
+              content: `List 10 "${searchQuery}". Return only the answers as plain text, one per line. Do not include any other text or warnings.`
             }
           ]
         })
@@ -112,6 +112,7 @@ export default function TopicPage() {
   
       const data = await response.json();
       const textOutput = data.choices?.[0]?.message?.content || '';
+      console.log('Content:', textOutput);
       const items = textOutput
         .split('\n')
         .map((line, index) => line.replace(/^\d+[\).]?\s*/, '').trim()) // Clean list format
